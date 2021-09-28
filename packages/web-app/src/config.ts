@@ -13,7 +13,7 @@ interface Config {
 type SupportedChains = ChainId.Rinkeby | ChainId.Mainnet;
 
 export const CHAIN_ID: SupportedChains = parseInt(
-  process.env.REACT_APP_CHAIN_ID ?? "4"
+  process.env.REACT_APP_CHAIN_ID ?? "1"
 );
 
 export const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
