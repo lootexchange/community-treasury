@@ -1,5 +1,6 @@
 {
   "name": "@lootexchange/treasury-contracts",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "compile": "hardhat compile",
