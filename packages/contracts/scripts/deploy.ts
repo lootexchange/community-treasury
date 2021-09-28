@@ -1,5 +1,4 @@
 import { getContractAddress } from "@ethersproject/address";
-import { Contract } from "@ethersproject/contracts";
 import { ethers } from "hardhat";
 
 const main = async () => {

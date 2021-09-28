@@ -12,6 +12,14 @@ Rinkeby deployment:
 
 `LootDAOProxy`: https://rinkeby.etherscan.io/address/0x886516b01cc57C8252Bc756D3c4110dcf0a55C24
 
+Mainnet deployment:
+
+`Executor`: https://etherscan.io/address/0x8cFDF9E9f7EA8c0871025318407A6f1Fbc5d5a18
+
+`LootDAOLogic`: https://etherscan.io/address/0x32f0722259280952CaC042141D928BeD92Bf9840
+
+`LootDAOProxy`: https://etherscan.io/address/0xCDb9F8f9bE143B7c72480185459AB9720462a786
+
 ### Setup
 
 Install all required dependencies by running `yarn` and compile the contracts via `yarn compile`.
