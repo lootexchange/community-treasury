@@ -32,8 +32,8 @@ const config: Record<SupportedChains, Config> = {
   },
   [ChainId.Mainnet]: {
     tokenAddress: "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7",
-    daoProxyAddress: "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
-    daoExecutorAddress: "0x0BC3807Ec262cB779b38D65b38158acC3bfedE10",
+    daoProxyAddress: "0xCDb9F8f9bE143B7c72480185459AB9720462a786",
+    daoExecutorAddress: "0x8cFDF9E9f7EA8c0871025318407A6f1Fbc5d5a18",
     tokenSubgraphApiUri:
       "https://api.studio.thegraph.com/query/8490/loot-market-lunar/0.0.2",
     daoSubgraphApiUri:
