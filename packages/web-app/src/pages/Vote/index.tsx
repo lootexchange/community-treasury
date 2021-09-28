@@ -295,8 +295,8 @@ const VotePage = ({
           proposal.status === ProposalState.ACTIVE &&
           !showVotingButtons && (
             <Alert variant="secondary" className={classes.voterIneligibleAlert}>
-              Only Loot bags that are in the user's wallet are elligible for
-              voting.
+              Only Loot bags that are in the user's wallet and were not already
+              used to vote on this proposal are elligible for voting.
             </Alert>
           )}
         {showVotingButtons ? (

@@ -12,8 +12,8 @@ const GovernancePage = () => {
       <Col lg={{ span: 8, offset: 2 }}>
         <h1 className={classes.heading}>Loot Exchange Treasury</h1>
         <h2 className={classes.subheading}>
-          Loot bags govern the Loot Exchange. You can vote on proposals
-          controlling the funds within the treasury.
+          Loot bags govern the Loot Exchange Treasury. You can vote on proposals
+          that control the funds within the treasury.
         </h2>
         <Proposals proposals={proposals} />
         <p>
