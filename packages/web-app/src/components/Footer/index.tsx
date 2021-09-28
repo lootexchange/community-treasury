@@ -15,10 +15,14 @@ const Footer = () => {
 
   const location = useLocation();
   const useGreyBg = useAppSelector(
-    (state) => state.application.useGreyBackground
+    state => state.application.useGreyBackground
   );
   const bgColor =
-    location.pathname === "/" ? "white" : useGreyBg ? "#d5d7e1" : "#e1d7d5";
+    location.pathname === "/"
+      ? "white"
+      : useGreyBg
+      ? "rgb(229 233 255)"
+      : "#e1d7d5";
 
   return (
     <Section

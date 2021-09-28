@@ -7,13 +7,8 @@
 }
 
 .greyBg {
-  background-color: #d5d7e1;
+  background-color: #eef1ff;
 }
 .beigeBg {
   background-color: #e1d7d5;
-}
-
-.btn-primary {
-  background-color: --brand-dark-red !important;
-  border-color: --brand-dark-red !important;
 }
