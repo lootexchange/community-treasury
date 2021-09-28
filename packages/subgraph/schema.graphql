@@ -1,0 +1,7 @@
+type Vote @entity {
+  id: ID!
+  voter: String!
+  proposalId: BigInt!
+  tokenId: BigInt!
+  support: Boolean!
+}

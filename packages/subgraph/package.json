@@ -1,0 +1,20 @@
+{
+  "name": "@lootexchange/subgraph",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "auth": "graph auth https://api.thegraph.com/deploy/",
+    "clean": "rm -rf ./src/types ./build subgraph.yaml",
+    "codegen": "graph codegen --output-dir src/types/",
+    "deploy": "graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.yaml.mustache > subgraph.yaml",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.yaml.mustache > subgraph.yaml",
+    "deploy:rinkeby": "yarn clean && yarn prepare:rinkeby && yarn codegen && yarn deploy lootexchange/treasury-rinkeby",
+    "deploy:mainnet": "yarn clean && yarn prepare:mainnet && yarn codegen && yarn deploy lootexchange/treasury"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.20.1",
+    "@graphprotocol/graph-ts": "^0.20.0",
+    "mustache": "^4.2.0"
+  }
+}

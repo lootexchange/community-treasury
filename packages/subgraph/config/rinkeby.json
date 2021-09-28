@@ -1,0 +1,7 @@
+{
+  "network": "rinkeby",
+  "dao": {
+    "address": "0x886516b01cc57C8252Bc756D3c4110dcf0a55C24",
+    "startBlock": 9366506
+  }
+}
