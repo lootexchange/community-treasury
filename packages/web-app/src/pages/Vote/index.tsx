@@ -1,5 +1,3 @@
-import { request } from "graphql-request";
-import { ownedBagsQuery } from "../../wrappers/subgraph";
 import {
   Row,
   Col,
@@ -34,10 +32,7 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { utils } from "ethers";
 import { useAppDispatch } from "../../hooks";
-import { useUserVotes } from "../../wrappers/lootToken";
-import { useEthers } from "@usedapp/core";
-import config from "../../config";
-import { left } from "@popperjs/core";
+import { useUserVoteTokens } from "../../wrappers/lootToken";
 
 const AVERAGE_BLOCK_TIME_IN_SECS = 13;
 
@@ -47,7 +42,6 @@ const VotePage = ({
   },
 }: RouteComponentProps<{ id: string }>) => {
   const proposal = useProposal(id);
-  const { account } = useEthers();
 
   const [vote, setVote] = useState<Vote>();
 
@@ -56,8 +50,6 @@ const VotePage = ({
 
   const [isQueuePending, setQueuePending] = useState<boolean>(false);
   const [isExecutePending, setExecutePending] = useState<boolean>(false);
-
-  const [tokenIds, setTokenIds] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
   const setModal = useCallback(
@@ -101,14 +93,11 @@ const VotePage = ({
   const abstainPercentage =
     proposal && totalVotes ? (proposal.abstainCount * 100) / totalVotes : 0;
 
-  // Only count available votes as of the proposal created block
-  const availableVotes = useUserVotes();
+  const availableTokenIds = useUserVoteTokens(id);
 
-  // Only show voting if user has > 0 votes at proposal created block and proposal is active
+  // Only show voting if user has > 0 and proposal is active
   const showVotingButtons =
-    availableVotes &&
-    proposal?.status === ProposalState.ACTIVE &&
-    tokenIds.length;
+    availableTokenIds.length && proposal?.status === ProposalState.ACTIVE;
 
   const linkIfAddress = (content: string) => {
     if (utils.isAddress(content)) {
@@ -209,24 +198,6 @@ const VotePage = ({
     [setModal]
   );
 
-  useEffect(() => {
-    const execute = async () => {
-      if (account) {
-        const result = await request<any>(
-          config.subgraphApiUri,
-          ownedBagsQuery(account)
-        );
-
-        let tokenIds: string[] = [];
-        if (result?.wallet?.bags?.length) {
-          tokenIds = result.wallet.bags.map(({ id }: any) => id);
-        }
-        setTokenIds(tokenIds);
-      }
-    };
-    execute();
-  }, [account]);
-
   useEffect(
     () =>
       onTransactionStateChange(
@@ -268,10 +239,10 @@ const VotePage = ({
       <VoteModal
         show={showVoteModal}
         onHide={() => setShowVoteModal(false)}
-        onVote={() => castVote(proposal?.id, tokenIds, vote)}
+        onVote={() => castVote(proposal?.id, availableTokenIds, vote)}
         isLoading={isVotePending}
         proposalId={proposal?.id}
-        availableVotes={availableVotes}
+        availableVotes={availableTokenIds.length}
         vote={vote}
       />
       <Col lg={{ span: 8, offset: 2 }}>

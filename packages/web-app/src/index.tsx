@@ -62,7 +62,7 @@ const useDappConfig = {
   },
 };
 
-const client = clientFactory(config.subgraphApiUri);
+const client = clientFactory(config.tokenSubgraphApiUri);
 
 const Updaters = () => {
   return (

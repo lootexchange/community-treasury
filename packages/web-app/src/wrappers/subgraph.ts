@@ -1,13 +1,23 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { gql } from "graphql-request";
 
-export const ownedBagsQuery = (wallet: string) => gql`
+export const ownedBagsQuery = (owner: string) => gql`
 {
-  wallet(id: "${wallet.toLowerCase()}") {
+  wallet(id: "${owner.toLowerCase()}") {
     bags {
       id
     }
   }
 }
+`;
+
+export const tokenVotesQuery = () => gql`
+  query ($proposalId: String!, $tokenIds: [String!]!) {
+    votes(where: { proposalId: $proposalId, tokenId_in: $tokenIds }) {
+      id
+      tokenId
+    }
+  }
 `;
 
 export const clientFactory = (uri: string) =>

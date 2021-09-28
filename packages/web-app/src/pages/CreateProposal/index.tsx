@@ -8,7 +8,7 @@ import {
   useProposalThreshold,
   usePropose,
 } from "../../wrappers/lootDao";
-import { useUserVotes } from "../../wrappers/lootToken";
+import { useUserVoteTokens } from "../../wrappers/lootToken";
 import classes from "./CreateProposal.module.css";
 import { Link } from "react-router-dom";
 import { useEthers } from "@usedapp/core";
@@ -25,7 +25,7 @@ const CreateProposalPage = () => {
   const { account } = useEthers();
   const latestProposalId = useProposalCount();
   const latestProposal = useProposal(latestProposalId ?? 0);
-  const availableVotes = useUserVotes();
+  const availableVoteTokens = useUserVoteTokens();
   const proposalThreshold = useProposalThreshold();
 
   const { propose, proposeState } = usePropose();
@@ -79,9 +79,9 @@ const CreateProposalPage = () => {
   );
 
   const hasEnoughVote = Boolean(
-    availableVotes &&
+    availableVoteTokens.length &&
       proposalThreshold !== undefined &&
-      availableVotes > proposalThreshold
+      availableVoteTokens.length > proposalThreshold
   );
 
   const handleCreateProposal = async () => {
