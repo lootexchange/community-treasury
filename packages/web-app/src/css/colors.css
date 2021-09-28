@@ -1,6 +1,6 @@
 :root {
   --brand-bg-green: #edf2f0;
-  --brand-dark-red: #d63c5e;
+  --brand-dark-red: rgba(41, 63, 215, 1);
   --brand-light-green: #6da886;
   --brand-black: #212529;
 }

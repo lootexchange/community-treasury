@@ -18,7 +18,7 @@
 
 .createProposalLink {
   padding: 0.9rem 1.5rem;
-  background-color: gray;
+  background-color: rgba(41, 63, 215, 1);
   border-radius: 5px;
   border: 0 none;
   font-size: large;
@@ -27,7 +27,7 @@
 }
 
 .createProposalLink:hover {
-  background-color: rgb(104, 104, 104);
+  background-color: rgba(41, 63, 215, 0.9);
 }
 
 .proposalLink {

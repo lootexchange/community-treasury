@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../hooks";
 import ShortAddress from "../ShortAddress";
 import classes from "./NavBar.module.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/swordLogo.png";
 import { useState } from "react";
 import { useEtherBalance, useEthers } from "@usedapp/core";
 import WalletConnectModal from "../WalletConnectModal";
@@ -13,7 +13,7 @@ import { utils } from "ethers";
 import { buildEtherscanAddressLink } from "../../utils/etherscan";
 
 const NavBar = () => {
-  const activeAccount = useAppSelector((state) => state.account.activeAccount);
+  const activeAccount = useAppSelector(state => state.account.activeAccount);
   const { deactivate } = useEthers();
 
   const treasuryBalance = useEtherBalance(config.daoExecutorAddress);
@@ -76,6 +76,7 @@ const NavBar = () => {
               src={logo}
               width="55"
               height="55"
+              style={{ borderRadius: 10 }}
               className="d-inline-block"
               alt="Loot DAO logo"
             />

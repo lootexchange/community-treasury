@@ -1,6 +1,7 @@
 .footerSignature {
   margin: 0 auto;
-  font-family: "Londrina Solid";
+  font-family: "Helvetica Neue";
+  font-weight: 600;
   font-size: 1rem;
 }
 .footerSignature a {
