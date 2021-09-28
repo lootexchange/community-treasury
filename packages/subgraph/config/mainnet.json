@@ -1,0 +1,7 @@
+{
+  "network": "mainnet",
+  "dao": {
+    "address": "0xCDb9F8f9bE143B7c72480185459AB9720462a786",
+    "startBlock": 13315921
+  }
+}
