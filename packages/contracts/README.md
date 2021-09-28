@@ -25,4 +25,4 @@ TESTING_BLOCK_NUMBER=
 
 To get deterministic test results (and make sure all tests will be passing) set the block number to `13306093`.
 
-Any other scripts are to be run via `npx hardhat --network NETWORK run ./scripts/SCRIPT.ts` (some of them might additional environment variables which are to be placed in the above mentioned `.env` file).
+Any other scripts are to be run via `npx hardhat --network NETWORK run ./scripts/SCRIPT.ts` (some of them might need additional environment variables which are to be placed in the above mentioned `.env` file).
