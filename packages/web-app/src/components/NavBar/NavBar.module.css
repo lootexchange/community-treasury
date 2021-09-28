@@ -30,14 +30,14 @@
   margin-right: 5px;
 }
 
-.nounsNavLink,
-.nounsNavLink:active,
-.nounsNavLink:visited {
+.navLink,
+.navLink:active,
+.navLink:visited {
   font-size: 0.9rem;
   padding: 0.5rem 0.8rem !important;
   color: var(--brand-black) !important;
 }
-.nounsNavLink:hover {
+.navLink:hover {
   color: var(--brand-dark-red) !important;
 }
 
