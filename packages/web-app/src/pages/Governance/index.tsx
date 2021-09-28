@@ -19,7 +19,7 @@ const GovernancePage = () => {
             fontSize: 20,
             fontWeight: 400,
             maxWidth: 650,
-            lineHeight: 1.5
+            lineHeight: 1.5,
           }}
         >
           Loot bags govern the Loot Exchange Treasury. You can vote on proposals
@@ -27,7 +27,7 @@ const GovernancePage = () => {
         </h3>
         <Proposals proposals={proposals} />
         <p>
-          A minimum threshold of 1% of the total Loot supply is required to
+          A minimum threshold of 0.1% of the total Loot supply is required to
           submit proposals
         </p>
       </Col>
