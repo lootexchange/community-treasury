@@ -1,0 +1,113 @@
+3c3,4
+< /// @title Nouns DAO Logic interfaces and events
+---
+> /// @notice LootDAOInterfaces.sol is a modified version of Nouns DAO's NounsDAOInterfaces.sol:
+> /// https://github.com/nounsDAO/nouns-monorepo/blob/76d6c267db40458a4ce06a9af063bbe7b160d3e3/packages/nouns-contracts/contracts/governance/NounsDAOInterfaces.sol
+5,29c6
+< /*********************************
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░██░░░████░░██░░░████░░░ *
+<  * ░░██████░░░████████░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  *********************************/
+< 
+< // LICENSE
+< // NounsDAOInterfaces.sol is a modified version of Compound Lab's GovernorBravoInterfaces.sol:
+< // https://github.com/compound-finance/compound-protocol/blob/b9b14038612d846b83f8a009a82c38974ff2dcfe/contracts/Governance/GovernorBravoInterfaces.sol
+< //
+< // GovernorBravoInterfaces.sol source code Copyright 2020 Compound Labs, Inc. licensed under the BSD-3-Clause license.
+< // With modifications by Nounders DAO.
+< //
+< // Additional conditions of BSD-3-Clause can be found here: https://opensource.org/licenses/BSD-3-Clause
+< //
+< // MODIFICATIONS
+< // NounsDAOEvents, NounsDAOProxyStorage, NounsDAOStorageV1 adds support for changes made by Nouns DAO to GovernorBravo.sol
+< // See NounsDAOLogicV1.sol for more details.
+---
+> /// @title Loot DAO Logic interfaces and events
+33c10,12
+< contract NounsDAOEvents {
+---
+> import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
+> 
+> contract LootDAOEvents {
+63a43
+>     /// @param tokenIds The id of the tokens voted with
+69a50
+>         uint256[] tokenIds,
+78c59
+<     /// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
+---
+>     /// @notice An event emitted when a proposal has been queued in the LootDAOExecutor
+81c62
+<     /// @notice An event emitted when a proposal has been executed in the NounsDAOExecutor
+---
+>     /// @notice An event emitted when a proposal has been executed in the LootDAOExecutor
+121c102
+< contract NounsDAOProxyStorage {
+---
+> contract LootDAOProxyStorage {
+134,136c115,117
+<  * @notice For future upgrades, do not change NounsDAOStorageV1. Create a new
+<  * contract which implements NounsDAOStorageV1 and following the naming convention
+<  * NounsDAOStorageVX.
+---
+>  * @notice For future upgrades, do not change LootDAOStorageV1. Create a new
+>  * contract which implements LootDAOStorageV1 and following the naming convention
+>  * LootDAOStorageVX.
+138c119
+< contract NounsDAOStorageV1 is NounsDAOProxyStorage {
+---
+> contract LootDAOStorageV1 is LootDAOProxyStorage {
+157,158c138,139
+<     /// @notice The address of the Nouns DAO Executor NounsDAOExecutor
+<     INounsDAOExecutor public timelock;
+---
+>     /// @notice The address of the Loot DAO Executor LootDAOExecutor
+>     ILootDAOExecutor public timelock;
+160,161c141,142
+<     /// @notice The address of the Nouns tokens
+<     NounsTokenLike public nouns;
+---
+>     /// @notice The address of the Loot token
+>     IERC721Enumerable public loot;
+188c169
+<         /// @notice The block at which voting begins: holders must delegate their votes prior to this block
+---
+>         /// @notice The block at which voting begins
+204,205c185,186
+<         /// @notice Receipts of ballots for the entire set of voters
+<         mapping(address => Receipt) receipts;
+---
+>         /// @notice Receipts of ballots per token
+>         mapping(uint256 => Receipt) receipts;
+208c189
+<     /// @notice Ballot receipt record for a voter
+---
+>     /// @notice Ballot receipt record for a token
+211a193,194
+>         /// @notice Voter (owner of the token)
+>         address voter;
+214,215d196
+<         /// @notice The number of votes the voter had, which were cast
+<         uint96 votes;
+232c213
+< interface INounsDAOExecutor {
+---
+> interface ILootDAOExecutor {
+264,272d244
+< }
+< 
+< interface NounsTokenLike {
+<     function getPriorVotes(address account, uint256 blockNumber)
+<         external
+<         view
+<         returns (uint96);
+< 
+<     function totalSupply() external view returns (uint96);

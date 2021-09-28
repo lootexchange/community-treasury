@@ -1,5 +1,7 @@
 # Loot Exchange Community Treasury Contracts
 
+These contracts are a fork of [NounsDAO](https://github.com/nounsDAO/nouns-monorepo/tree/master/packages/nouns-contracts). The main changes have to do with replacing checkpointed voting with per token voting (because the Loot token contract is not checkpointed we have to link each vote to a particular token id). The exact code changes can be found in the [`diffs`](./diffs) directory.
+
 ### Deployments
 
 Rinkeby deployment:

@@ -1,0 +1,97 @@
+3c3,4
+< /// @title The Nouns DAO executor and treasury
+---
+> /// @notice LootDAOExecutor.sol is a modified version of Noun DAO's NounsDAOExecutor.sol:
+> /// https://github.com/nounsDAO/nouns-monorepo/blob/76d6c267db40458a4ce06a9af063bbe7b160d3e3/packages/nouns-contracts/contracts/governance/NounsDAOExecutor.sol
+5,29c6
+< /*********************************
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░██░░░████░░██░░░████░░░ *
+<  * ░░██████░░░████████░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  *********************************/
+< 
+< // LICENSE
+< // NounsDAOExecutor.sol is a modified version of Compound Lab's Timelock.sol:
+< // https://github.com/compound-finance/compound-protocol/blob/20abad28055a2f91df48a90f8bb6009279a4cb35/contracts/Timelock.sol
+< //
+< // Timelock.sol source code Copyright 2020 Compound Labs, Inc. licensed under the BSD-3-Clause license.
+< // With modifications by Nounders DAO.
+< //
+< // Additional conditions of BSD-3-Clause can be found here: https://opensource.org/licenses/BSD-3-Clause
+< //
+< // MODIFICATIONS
+< // NounsDAOExecutor.sol modifies Timelock to use Solidity 0.8.x receive(), fallback(), and built-in over/underflow protection
+< // This contract acts as executor of Nouns DAO governance and its treasury, so it has been modified to accept ETH.
+---
+> /// @title The Loot DAO executor and treasury
+33c10
+< contract NounsDAOExecutor {
+---
+> contract LootDAOExecutor {
+75c52
+<             "NounsDAOExecutor::constructor: Delay must exceed minimum delay."
+---
+>             "LootDAOExecutor::constructor: Delay must exceed minimum delay."
+79c56
+<             "NounsDAOExecutor::setDelay: Delay must not exceed maximum delay."
+---
+>             "LootDAOExecutor::setDelay: Delay must not exceed maximum delay."
+89c66
+<             "NounsDAOExecutor::setDelay: Call must come from NounsDAOExecutor."
+---
+>             "LootDAOExecutor::setDelay: Call must come from LootDAOExecutor."
+93c70
+<             "NounsDAOExecutor::setDelay: Delay must exceed minimum delay."
+---
+>             "LootDAOExecutor::setDelay: Delay must exceed minimum delay."
+97c74
+<             "NounsDAOExecutor::setDelay: Delay must not exceed maximum delay."
+---
+>             "LootDAOExecutor::setDelay: Delay must not exceed maximum delay."
+107c84
+<             "NounsDAOExecutor::acceptAdmin: Call must come from pendingAdmin."
+---
+>             "LootDAOExecutor::acceptAdmin: Call must come from pendingAdmin."
+118c95
+<             "NounsDAOExecutor::setPendingAdmin: Call must come from NounsDAOExecutor."
+---
+>             "LootDAOExecutor::setPendingAdmin: Call must come from LootDAOExecutor."
+134c111
+<             "NounsDAOExecutor::queueTransaction: Call must come from admin."
+---
+>             "LootDAOExecutor::queueTransaction: Call must come from admin."
+138c115
+<             "NounsDAOExecutor::queueTransaction: Estimated execution block must satisfy delay."
+---
+>             "LootDAOExecutor::queueTransaction: Estimated execution block must satisfy delay."
+159c136
+<             "NounsDAOExecutor::cancelTransaction: Call must come from admin."
+---
+>             "LootDAOExecutor::cancelTransaction: Call must come from admin."
+179c156
+<             "NounsDAOExecutor::executeTransaction: Call must come from admin."
+---
+>             "LootDAOExecutor::executeTransaction: Call must come from admin."
+187c164
+<             "NounsDAOExecutor::executeTransaction: Transaction hasn't been queued."
+---
+>             "LootDAOExecutor::executeTransaction: Transaction hasn't been queued."
+191c168
+<             "NounsDAOExecutor::executeTransaction: Transaction hasn't surpassed time lock."
+---
+>             "LootDAOExecutor::executeTransaction: Transaction hasn't surpassed time lock."
+195c172
+<             "NounsDAOExecutor::executeTransaction: Transaction is stale."
+---
+>             "LootDAOExecutor::executeTransaction: Transaction is stale."
+217c194
+<             "NounsDAOExecutor::executeTransaction: Transaction execution reverted."
+---
+>             "LootDAOExecutor::executeTransaction: Transaction execution reverted."

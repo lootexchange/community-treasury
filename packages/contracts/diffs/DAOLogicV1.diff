@@ -1,0 +1,415 @@
+3c3,4
+< /// @title The Nouns DAO logic version 1
+---
+> /// @notice LootDAOLogicV1.sol is a modified version of Noun DAO's NounsDAOLogicV1.sol:
+> /// https://github.com/nounsDAO/nouns-monorepo/blob/76d6c267db40458a4ce06a9af063bbe7b160d3e3/packages/nouns-contracts/contracts/governance/NounsDAOLogicV1.sol
+5,59c6
+< /*********************************
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░██░░░████░░██░░░████░░░ *
+<  * ░░██████░░░████████░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░██░░██░░░████░░██░░░████░░░ *
+<  * ░░░░░░█████████░░█████████░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+<  *********************************/
+< 
+< // LICENSE
+< // NounsDAOLogicV1.sol is a modified version of Compound Lab's GovernorBravoDelegate.sol:
+< // https://github.com/compound-finance/compound-protocol/blob/b9b14038612d846b83f8a009a82c38974ff2dcfe/contracts/Governance/GovernorBravoDelegate.sol
+< //
+< // GovernorBravoDelegate.sol source code Copyright 2020 Compound Labs, Inc. licensed under the BSD-3-Clause license.
+< // With modifications by Nounders DAO.
+< //
+< // Additional conditions of BSD-3-Clause can be found here: https://opensource.org/licenses/BSD-3-Clause
+< //
+< // MODIFICATIONS
+< // NounsDAOLogicV1 adds:
+< // - Proposal Threshold basis points instead of fixed number
+< //   due to the Noun token's increasing supply
+< //
+< // - Quorum Votes basis points instead of fixed number
+< //   due to the Noun token's increasing supply
+< //
+< // - Per proposal storing of fixed `proposalThreshold`
+< //   and `quorumVotes` calculated using the Noun token's total supply
+< //   at the block the proposal was created and the basis point parameters
+< //
+< // - `ProposalCreatedWithRequirements` event that emits `ProposalCreated` parameters with
+< //   the addition of `proposalThreshold` and `quorumVotes`
+< //
+< // - Votes are counted from the block a proposal is created instead of
+< //   the proposal's voting start block to align with the parameters
+< //   stored with the proposal
+< //
+< // - Veto ability which allows `veteor` to halt any proposal at any stage unless
+< //   the proposal is executed.
+< //   The `veto(uint proposalId)` logic is a modified version of `cancel(uint proposalId)`
+< //   A `vetoed` flag was added to the `Proposal` struct to support this.
+< //
+< // NounsDAOLogicV1 removes:
+< // - `initialProposalId` and `_initiate()` due to this being the
+< //   first instance of the governance contract unlike
+< //   GovernorBravo which upgrades GovernorAlpha
+< //
+< // - Value passed along using `timelock.executeTransaction{value: proposal.value}`
+< //   in `execute(uint proposalId)`. This contract should not hold funds and does not
+< //   implement `receive()` or `fallback()` functions.
+< //
+---
+> /// @title The Loot DAO logic version 1
+63c10
+< import "./NounsDAOInterfaces.sol";
+---
+> import "./LootDAOInterfaces.sol";
+65c12
+< contract NounsDAOLogicV1 is NounsDAOStorageV1, NounsDAOEvents {
+---
+> contract LootDAOLogicV1 is LootDAOStorageV1, LootDAOEvents {
+67c14
+<     string public constant name = "Nouns DAO";
+---
+>     string public constant name = "Loot DAO";
+104c51,53
+<         keccak256("Ballot(uint256 proposalId,uint8 support)");
+---
+>         keccak256(
+>             "Ballot(uint256 proposalId,uint256[] tokenIds,uint8 support)"
+>         );
+108,109c57,58
+<      * @param timelock_ The address of the NounsDAOExecutor
+<      * @param nouns_ The address of the NOUN tokens
+---
+>      * @param timelock_ The address of the LootDAOExecutor
+>      * @param loot_ The address of the Loot token
+118c67
+<         address nouns_,
+---
+>         address loot_,
+127c76
+<             "NounsDAO::initialize: can only initialize once"
+---
+>             "LootDAO::initialize: can only initialize once"
+129c78
+<         require(msg.sender == admin, "NounsDAO::initialize: admin only");
+---
+>         require(msg.sender == admin, "LootDAO::initialize: admin only");
+132c81
+<             "NounsDAO::initialize: invalid timelock address"
+---
+>             "LootDAO::initialize: invalid timelock address"
+135,136c84,85
+<             nouns_ != address(0),
+<             "NounsDAO::initialize: invalid nouns address"
+---
+>             loot_ != address(0),
+>             "LootDAO::initialize: invalid loot address"
+141c90
+<             "NounsDAO::initialize: invalid voting period"
+---
+>             "LootDAO::initialize: invalid voting period"
+146c95
+<             "NounsDAO::initialize: invalid voting delay"
+---
+>             "LootDAO::initialize: invalid voting delay"
+151c100
+<             "NounsDAO::initialize: invalid proposal threshold"
+---
+>             "LootDAO::initialize: invalid proposal threshold"
+156c105
+<             "NounsDAO::initialize: invalid proposal threshold"
+---
+>             "LootDAO::initialize: invalid proposal threshold"
+167,168c116,117
+<         timelock = INounsDAOExecutor(timelock_);
+<         nouns = NounsTokenLike(nouns_);
+---
+>         timelock = ILootDAOExecutor(timelock_);
+>         loot = IERC721Enumerable(loot_);
+185c134
+<      * @notice Function used to propose a new proposal. Sender must have delegates above the proposal threshold
+---
+>      * @notice Function used to propose a new proposal. Sender must own tokens above the proposal threshold
+202c151
+<         temp.totalSupply = nouns.totalSupply();
+---
+>         temp.totalSupply = loot.totalSupply();
+210,212c159,160
+<             nouns.getPriorVotes(msg.sender, block.number - 1) >
+<                 temp.proposalThreshold,
+<             "NounsDAO::propose: proposer votes below proposal threshold"
+---
+>             loot.balanceOf(msg.sender) > temp.proposalThreshold,
+>             "LootDAO::propose: proposer votes below proposal threshold"
+218c166
+<             "NounsDAO::propose: proposal function information arity mismatch"
+---
+>             "LootDAO::propose: proposal function information arity mismatch"
+220c168
+<         require(targets.length != 0, "NounsDAO::propose: must provide actions");
+---
+>         require(targets.length != 0, "LootDAO::propose: must provide actions");
+223c171
+<             "NounsDAO::propose: too many actions"
+---
+>             "LootDAO::propose: too many actions"
+233c181
+<                 "NounsDAO::propose: one live proposal per proposer, found an already active proposal"
+---
+>                 "LootDAO::propose: one live proposal per proposer, found an already active proposal"
+237c185
+<                 "NounsDAO::propose: one live proposal per proposer, found an already pending proposal"
+---
+>                 "LootDAO::propose: one live proposal per proposer, found an already pending proposal"
+305c253
+<             "NounsDAO::queue: proposal can only be queued if it is succeeded"
+---
+>             "LootDAO::queue: proposal can only be queued if it is succeeded"
+333c281
+<             "NounsDAO::queueOrRevertInternal: identical proposal action already queued at eta"
+---
+>             "LootDAO::queueOrRevertInternal: identical proposal action already queued at eta"
+345c293
+<             "NounsDAO::execute: proposal can only be executed if it is queued"
+---
+>             "LootDAO::execute: proposal can only be executed if it is queued"
+362c310
+<      * @notice Cancels a proposal only if sender is the proposer, or proposer delegates dropped below proposal threshold
+---
+>      * @notice Cancels a proposal only if sender is the proposer, or proposer balance dropped below proposal threshold
+368c316
+<             "NounsDAO::cancel: cannot cancel executed proposal"
+---
+>             "LootDAO::cancel: cannot cancel executed proposal"
+374,376c322,323
+<                 nouns.getPriorVotes(proposal.proposer, block.number - 1) <
+<                 proposal.proposalThreshold,
+<             "NounsDAO::cancel: proposer above threshold"
+---
+>                 loot.balanceOf(proposal.proposer) < proposal.proposalThreshold,
+>             "LootDAO::cancel: proposer above threshold"
+398,399c345,346
+<         require(vetoer != address(0), "NounsDAO::veto: veto power burned");
+<         require(msg.sender == vetoer, "NounsDAO::veto: only vetoer");
+---
+>         require(vetoer != address(0), "LootDAO::veto: veto power burned");
+>         require(msg.sender == vetoer, "LootDAO::veto: only vetoer");
+402c349
+<             "NounsDAO::veto: cannot veto executed proposal"
+---
+>             "LootDAO::veto: cannot veto executed proposal"
+445,446c392,393
+<      * @param proposalId the id of proposal
+<      * @param voter The address of the voter
+---
+>      * @param proposalId The id of proposal
+>      * @param tokenId The id of the token voted with
+449c396
+<     function getReceipt(uint256 proposalId, address voter)
+---
+>     function getReceipt(uint256 proposalId, uint256 tokenId)
+454c401
+<         return proposals[proposalId].receipts[voter];
+---
+>         return proposals[proposalId].receipts[tokenId];
+465c412
+<             "NounsDAO::state: invalid proposal id"
+---
+>             "LootDAO::state: invalid proposal id"
+494a442
+>      * @param tokenIds The id of the tokens to vote with
+497c445,449
+<     function castVote(uint256 proposalId, uint8 support) external {
+---
+>     function castVote(
+>         uint256 proposalId,
+>         uint256[] calldata tokenIds,
+>         uint8 support
+>     ) external {
+500a453
+>             tokenIds,
+502c455
+<             castVoteInternal(msg.sender, proposalId, support),
+---
+>             castVoteInternal(msg.sender, proposalId, tokenIds, support),
+509a463
+>      * @param tokenIds The id of the tokens to vote with
+514a469
+>         uint256[] calldata tokenIds,
+520a476
+>             tokenIds,
+522c478
+<             castVoteInternal(msg.sender, proposalId, support),
+---
+>             castVoteInternal(msg.sender, proposalId, tokenIds, support),
+532a489
+>         uint256[] calldata tokenIds,
+538,556c495,522
+<         bytes32 domainSeparator = keccak256(
+<             abi.encode(
+<                 DOMAIN_TYPEHASH,
+<                 keccak256(bytes(name)),
+<                 getChainIdInternal(),
+<                 address(this)
+<             )
+<         );
+<         bytes32 structHash = keccak256(
+<             abi.encode(BALLOT_TYPEHASH, proposalId, support)
+<         );
+<         bytes32 digest = keccak256(
+<             abi.encodePacked("\x19\x01", domainSeparator, structHash)
+<         );
+<         address signatory = ecrecover(digest, v, r, s);
+<         require(
+<             signatory != address(0),
+<             "NounsDAO::castVoteBySig: invalid signature"
+<         );
+---
+>         // Avoid "Stack too deep" errors
+>         address signatory;
+>         {
+>             bytes32 domainSeparator = keccak256(
+>                 abi.encode(
+>                     DOMAIN_TYPEHASH,
+>                     keccak256(bytes(name)),
+>                     getChainIdInternal(),
+>                     address(this)
+>                 )
+>             );
+>             bytes32 structHash = keccak256(
+>                 abi.encode(
+>                     BALLOT_TYPEHASH,
+>                     proposalId,
+>                     keccak256(abi.encodePacked(tokenIds)),
+>                     support
+>                 )
+>             );
+>             bytes32 digest = keccak256(
+>                 abi.encodePacked("\x19\x01", domainSeparator, structHash)
+>             );
+>             signatory = ecrecover(digest, v, r, s);
+>             require(
+>                 signatory != address(0),
+>                 "LootDAO::castVoteBySig: invalid signature"
+>             );
+>         }
+559a526
+>             tokenIds,
+561c528
+<             castVoteInternal(signatory, proposalId, support),
+---
+>             castVoteInternal(signatory, proposalId, tokenIds, support),
+569a537
+>      * @param tokenIds The id of the tokens to vote with
+575a544
+>         uint256[] memory tokenIds,
+580c549
+<             "NounsDAO::castVoteInternal: voting is closed"
+---
+>             "LootDAO::castVoteInternal: voting is closed"
+582c551
+<         require(support <= 2, "NounsDAO::castVoteInternal: invalid vote type");
+---
+>         require(support <= 2, "LootDAO::castVoteInternal: invalid vote type");
+584,588d552
+<         Receipt storage receipt = proposal.receipts[voter];
+<         require(
+<             receipt.hasVoted == false,
+<             "NounsDAO::castVoteInternal: voter already voted"
+<         );
+590,594c554,575
+<         /// @notice: Unlike GovernerBravo, votes are considered from the block the proposal was created in order to normalize quorumVotes and proposalThreshold metrics
+<         uint96 votes = nouns.getPriorVotes(
+<             voter,
+<             proposal.startBlock - votingDelay
+<         );
+---
+>         for (uint256 i = 0; i < tokenIds.length; i++) {
+>             require(
+>                 loot.ownerOf(tokenIds[i]) == voter,
+>                 "LootDAO::castVoteInternal: voter not owner of token"
+>             );
+> 
+>             Receipt storage receipt = proposal.receipts[tokenIds[i]];
+>             require(
+>                 receipt.hasVoted == false,
+>                 "LootDAO::castVoteInternal: token already voted"
+>             );
+> 
+>             receipt.hasVoted = true;
+>             receipt.voter = voter;
+>             receipt.support = support;
+>         }
+> 
+>         /// @notice: Unlike NounsDAOLogicV1, which governs a checkpointed token, we have to deal with governing
+>         /// the Loot token which is not checkpointed. To make sure no Loot token can vote more than once, casting
+>         /// a vote is to be explicitly tied to a token id. Batch voting methods exist for casting votes with
+>         /// multiple tokens in the same transaction.
+>         uint96 votes = uint96(tokenIds.length);
+604,607d584
+<         receipt.hasVoted = true;
+<         receipt.support = support;
+<         receipt.votes = votes;
+< 
+616c593
+<         require(msg.sender == admin, "NounsDAO::_setVotingDelay: admin only");
+---
+>         require(msg.sender == admin, "LootDAO::_setVotingDelay: admin only");
+620c597
+<             "NounsDAO::_setVotingDelay: invalid voting delay"
+---
+>             "LootDAO::_setVotingDelay: invalid voting delay"
+633c610
+<         require(msg.sender == admin, "NounsDAO::_setVotingPeriod: admin only");
+---
+>         require(msg.sender == admin, "LootDAO::_setVotingPeriod: admin only");
+637c614
+<             "NounsDAO::_setVotingPeriod: invalid voting period"
+---
+>             "LootDAO::_setVotingPeriod: invalid voting period"
+655c632
+<             "NounsDAO::_setProposalThresholdBPS: admin only"
+---
+>             "LootDAO::_setProposalThresholdBPS: admin only"
+660c637
+<             "NounsDAO::_setProposalThreshold: invalid proposal threshold"
+---
+>             "LootDAO::_setProposalThreshold: invalid proposal threshold"
+677,680c654
+<         require(
+<             msg.sender == admin,
+<             "NounsDAO::_setQuorumVotesBPS: admin only"
+<         );
+---
+>         require(msg.sender == admin, "LootDAO::_setQuorumVotesBPS: admin only");
+684c658
+<             "NounsDAO::_setProposalThreshold: invalid proposal threshold"
+---
+>             "LootDAO::_setProposalThreshold: invalid proposal threshold"
+699c673
+<         require(msg.sender == admin, "NounsDAO::_setPendingAdmin: admin only");
+---
+>         require(msg.sender == admin, "LootDAO::_setPendingAdmin: admin only");
+719c693
+<             "NounsDAO::_acceptAdmin: pending admin only"
+---
+>             "LootDAO::_acceptAdmin: pending admin only"
+741c715
+<         require(msg.sender == vetoer, "NounsDAO::_setVetoer: vetoer only");
+---
+>         require(msg.sender == vetoer, "LootDAO::_setVetoer: vetoer only");
+754c728
+<         require(msg.sender == vetoer, "NounsDAO::_burnVetoPower: vetoer only");
+---
+>         require(msg.sender == vetoer, "LootDAO::_burnVetoPower: vetoer only");
+764c738
+<         return bps2Uint(proposalThresholdBPS, nouns.totalSupply());
+---
+>         return bps2Uint(proposalThresholdBPS, loot.totalSupply());
+772c746
+<         return bps2Uint(quorumVotesBPS, nouns.totalSupply());
+---
+>         return bps2Uint(quorumVotesBPS, loot.totalSupply());
