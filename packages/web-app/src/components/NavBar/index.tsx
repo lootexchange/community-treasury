@@ -83,6 +83,17 @@ const NavBar = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
+
+            <Nav.Item>
+              <Nav.Link
+                  href="https://loot-talk.com/t/community-treasury-an-experiment-in-loot-funding/1728"
+                  className={classes.navLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Learn More
+              </Nav.Link>
+            </Nav.Item>
             <Nav.Item>
               {treasuryBalance && (
                 <Nav.Link

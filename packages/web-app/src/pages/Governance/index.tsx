@@ -11,7 +11,7 @@ const GovernancePage = () => {
     <Section bgColor="transparent" fullWidth={true}>
       <Col lg={{ span: 8, offset: 2 }}>
         <h1 style={{ marginTop: 32 }} className={classes.heading}>
-          Community Treasury
+          Loot Royalty DAO
         </h1>
         <h3
           style={{
@@ -22,12 +22,12 @@ const GovernancePage = () => {
             lineHeight: 1.5,
           }}
         >
-          Loot bags govern the Loot Exchange Treasury. You can vote on proposals
-          that control the funds within the treasury.
+          A community-governed treasury for collecting and allocating Loot royalties. 
+          One vote per Loot bag. Currently collecting from <a href="https://loot.exchange" target="_blank">Loot.Exchange</a>
         </h3>
         <Proposals proposals={proposals} />
         <p>
-          A minimum threshold of 0.1% of the total Loot supply is required to
+          A minimum threshold of 0.1% of the total Loot supply (8 bags) is required to
           submit proposals
         </p>
       </Col>

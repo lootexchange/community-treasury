@@ -11,6 +11,6 @@ export const externalURL = (externalURL: ExternalURL) => {
     case ExternalURL.twitter:
       return "https://twitter.com/LootExchange";
     case ExternalURL.github:
-      return "https://github.com/lootexchange";
+      return "https://github.com/lootexchange/community-treasury";
   }
 };
