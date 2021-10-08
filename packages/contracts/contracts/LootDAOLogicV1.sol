@@ -20,7 +20,7 @@ contract LootDAOLogicV1 is LootDAOStorageV1, LootDAOEvents {
     uint256 public constant MAX_PROPOSAL_THRESHOLD_BPS = 1_000; // 1,000 basis points or 10%
 
     /// @notice The minimum setable voting period
-    uint256 public constant MIN_VOTING_PERIOD = 5_760; // About 24 hours
+    uint256 public constant MIN_VOTING_PERIOD = 0; // About 24 hours
 
     /// @notice The max setable voting period
     uint256 public constant MAX_VOTING_PERIOD = 80_640; // About 2 weeks
@@ -32,7 +32,7 @@ contract LootDAOLogicV1 is LootDAOStorageV1, LootDAOEvents {
     uint256 public constant MAX_VOTING_DELAY = 40_320; // About 1 week
 
     /// @notice The minimum setable quorum votes basis points
-    uint256 public constant MIN_QUORUM_VOTES_BPS = 200; // 200 basis points or 2%
+    uint256 public constant MIN_QUORUM_VOTES_BPS = 1; // 200 basis points or 2%
 
     /// @notice The maximum setable quorum votes basis points
     uint256 public constant MAX_QUORUM_VOTES_BPS = 2_000; // 2,000 basis points or 20%

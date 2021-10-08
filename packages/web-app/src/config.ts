@@ -21,8 +21,8 @@ export const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const config: Record<SupportedChains, Config> = {
   [ChainId.Rinkeby]: {
     tokenAddress: "0x79e2d470f950f2cf78eef41720e8ff2cf4b3cd78",
-    daoProxyAddress: "0x886516b01cc57C8252Bc756D3c4110dcf0a55C24",
-    daoExecutorAddress: "0x8e71a0d2CC9c48173D9a9b7d90D6036093212aFa",
+    daoProxyAddress: "0x1b5c6140444CE28454DC32345dc090b923dB2487",
+    daoExecutorAddress: "0x74E568a889123bAecf6708242Da34d8A99e7fCD0",
     tokenSubgraphApiUri:
       "https://api.studio.thegraph.com/query/8490/loot-exchange--rinkeby/v0.0.3",
     daoSubgraphApiUri:

@@ -23,7 +23,7 @@ const main = async () => {
   const executor = await executorFactory.deploy(
     daoProxyAddress,
     // Delay before executing any transaction
-    48 * 3600
+    0
   );
   await executor.deployTransaction.wait();
 
@@ -56,13 +56,13 @@ const main = async () => {
     // Logic contract
     daoLogic.address,
     // Voting period (in blocks)
-    5760,
+    25,
     // Voting delay - time between actions being proposed and votes being allowed on the proposal (in blocks)
     1,
     // Proposal threshold BPS (percentage of tokens proposer must hold)
-    10, // 0.1% of totalSupply
+    1, // 0.1% of totalSupply
     // Quorum votes BPS (percentage of tokens that must vote in support of a proposal to have it accepted)
-    200 // 2% of totalSupply
+    1 // 2% of totalSupply
   );
   await daoProxy.deployTransaction.wait();
 

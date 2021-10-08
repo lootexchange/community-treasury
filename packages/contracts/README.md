@@ -6,11 +6,11 @@ These contracts are a fork of [NounsDAO](https://github.com/nounsDAO/nouns-monor
 
 Rinkeby deployment:
 
-`Executor`: https://rinkeby.etherscan.io/address/0x8e71a0d2CC9c48173D9a9b7d90D6036093212aFa
+`Executor`: https://rinkeby.etherscan.io/address/0x74E568a889123bAecf6708242Da34d8A99e7fCD0
 
-`LootDAOLogic`: https://rinkeby.etherscan.io/address/0x5DfD4fC7347c9eAF09b9120Fb11899a9c830Dea4
+`LootDAOLogic`: https://rinkeby.etherscan.io/address/0x3374ca798ef81E6959A5e2A050A47B98a13B4E87
 
-`LootDAOProxy`: https://rinkeby.etherscan.io/address/0x886516b01cc57C8252Bc756D3c4110dcf0a55C24
+`LootDAOProxy`: https://rinkeby.etherscan.io/address/0x1b5c6140444CE28454DC32345dc090b923dB2487
 
 Mainnet deployment:
 
