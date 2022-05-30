@@ -29,7 +29,7 @@ const GovernancePage = () => {
           </a>{" "}
           and{" "}
           <a
-            href="https://https://opensea.io/collection/lootproject"
+            href="https://opensea.io/collection/lootproject"
             target="_blank"
           >
             Opensea
